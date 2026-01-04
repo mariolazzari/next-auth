@@ -1,6 +1,5 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -12,15 +11,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { passwordMatchSchema } from "@/validations/passwordMatchSchema";
-
-const formSchema = z
-  .object({
-    email: z.email("Invalid email address"),
-  })
-  .and(passwordMatchSchema);
-
-type FormSchema = z.infer<typeof formSchema>;
+import { registerUser } from "./actions";
+import { formSchema, FormSchema } from "./schemas";
 
 export function RegisterForm() {
   const form = useForm<FormSchema>({
@@ -32,8 +24,13 @@ export function RegisterForm() {
     },
   });
 
-  const onSubmit = (data: FormSchema) => {
-    console.log(data);
+  const onSubmit = async (data: FormSchema) => {
+    const result = await registerUser(data);
+    if (result?.error) {
+      form.setError("root", { message: result.message });
+    }
+
+    console.log("res", result);
   };
 
   return (
@@ -88,9 +85,7 @@ export function RegisterForm() {
           )}
         />
 
-        <Button type="submit" className="w-full mt-4">
-          Register
-        </Button>
+        <Button type="submit">Register</Button>
       </form>
     </Form>
   );

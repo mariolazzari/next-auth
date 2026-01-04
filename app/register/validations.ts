@@ -1,5 +1,8 @@
 import { z } from "zod";
-import { passwordSchema } from "./passwordSchema";
+
+export const passwordSchema = z
+  .string()
+  .min(5, "Password must be at least 5 characters long");
 
 export const passwordMatchSchema = z
   .object({
