@@ -15,7 +15,7 @@ export const registerUser = async ({
   if (!newUserValidation.success) {
     return {
       error: true,
-      message: newUserValidation.error.issues?.[0]?.message || "Invalid data",
+      message: newUserValidation.error.issues?.[0]?.message ?? "Invalid data",
     };
   }
 
