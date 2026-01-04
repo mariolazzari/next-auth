@@ -12,12 +12,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { passwordMatchSchema } from "@/validations/passwordMatchSchema";
 
-const formSchema = z.object({
-  email: z.email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  passwordConfirm: z.string().min(6, "Password must be at least 6 characters"),
-});
+const formSchema = z
+  .object({
+    email: z.email("Invalid email address"),
+  })
+  .and(passwordMatchSchema);
+
 type FormSchema = z.infer<typeof formSchema>;
 
 export function RegisterForm() {
@@ -36,7 +38,10 @@ export function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        className="flex flex-col gap-2"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <FormField
           control={form.control}
           name="email"
