@@ -1,9 +1,11 @@
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { RegisterForm } from "./register-form";
 
 function RegisterPage() {
   return (
@@ -13,6 +15,10 @@ function RegisterPage() {
           <CardTitle>Register</CardTitle>
           <CardDescription>Create your account</CardDescription>
         </CardHeader>
+
+        <CardContent>
+          <RegisterForm />
+        </CardContent>
       </Card>
     </main>
   );

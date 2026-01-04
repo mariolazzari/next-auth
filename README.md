@@ -17,4 +17,5 @@ pnpm dev
 ```sh
 pnpm dlx shadcn@latest add form
 pnpm dlx shadcn@latest add card
+pnpm dlx shadcn@latest add input
 ```
