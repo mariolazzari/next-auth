@@ -42,5 +42,39 @@ export default db;
 ### User table
 
 ```ts
+import { boolean, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  email: text("email").unique(),
+  password: text("password"),
+  createdAt: timestamp("created_at").defaultNow(),
+  twoFactorSecret: text("2fa_secret"),
+  twoFactorActivated: boolean("2fa_activated").default(false),
+});
+```
+
+#### Drizzle configuration
+
+```ts
+// drizzle.config.ts
+import { defineConfig } from "drizzle-kit";
+import "dotenv/config";
+import dotenv from "dotenv";
+
+dotenv.config({
+  path: ".env.local",
+});
+
+export default defineConfig({
+  dialect: "postgresql",
+  schema: "./db/schema.ts",
+  dbCredentials: {
+    url: process.env.NEON_DATABASE_URL!,
+  },
+});
+```
+
+```sh
+npx drizzle-kit push
 ```
