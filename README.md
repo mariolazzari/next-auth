@@ -7,10 +7,14 @@
 ```sh
 pnpx create-next-app@latest
 pnpm dlx shadcn@latest init
-pnpm dlx shadcn@latest add button
 pnpm dev
 ```
 
 ## Register functionality
 
 ### Register page
+
+```sh
+pnpm dlx shadcn@latest add form
+pnpm dlx shadcn@latest add card
+```
