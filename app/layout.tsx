@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { auth } from "@/auth";
+import { LogoutButton } from "@/components/buttons";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +31,16 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div>{session?.user?.email ?? "No user logged"}</div>
+        <div>
+          {session?.user?.email ? (
+            <div>
+              {session.user.email}
+              <LogoutButton />
+            </div>
+          ) : (
+            "No user logged"
+          )}
+        </div>
         {children}
       </body>
     </html>

@@ -13,8 +13,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { loginUser } from "./actions";
 import { loginFormSchema, LoginFormSchema } from "./schemas";
+import { useRouter } from "next/navigation";
 
 export function LoginForm() {
+  const router = useRouter();
+
   const form = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -27,7 +30,9 @@ export function LoginForm() {
     const result = await loginUser(data);
     if (result?.error) {
       form.setError("email", { message: result.message });
+      return;
     }
+    router.push("/my-account");
   };
 
   return (

@@ -1,5 +1,5 @@
 "use server";
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import { formSchema, FormSchema } from "./schemas";
 import db from "@/db/drizzle";
 import { users } from "@/db/userSchema";
