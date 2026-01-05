@@ -1,9 +1,6 @@
 "use server";
-import { hash } from "bcrypt";
+import { signIn } from "@/auth";
 import { loginFormSchema, LoginFormSchema } from "./schemas";
-import db from "@/db/drizzle";
-import { users } from "@/db/userSchema";
-import { isUniqueViolation } from "@/db/utils";
 
 export const loginUser = async ({ email, password }: LoginFormSchema) => {
   try {
@@ -20,8 +17,14 @@ export const loginUser = async ({ email, password }: LoginFormSchema) => {
       };
     }
 
-    console.log("Todo...");
-  } catch (_ex) {
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+  } catch (ex) {
+    console.error(ex);
+
     return {
       error: true,
       message: "Database error",

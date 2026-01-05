@@ -140,3 +140,28 @@ export const registerUser = async ({
 ### NextAuth setup
 
 [AuthJS](https://authjs.dev/)
+
+```sh
+pnpm add next-auth@beta
+npx auth secret
+```
+
+```ts
+// auth.ts
+import NextAuth from "next-auth";
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  providers: [],
+});
+```
+
+```ts
+// ./app/api/auth/[...nextauth]/route.ts
+import { handlers } from "@/auth"; // Referring to the auth.ts we just created
+
+export const { GET, POST } = handlers;
+```
+
+```ts
+
+```
