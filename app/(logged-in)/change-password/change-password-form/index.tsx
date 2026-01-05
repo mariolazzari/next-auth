@@ -1,8 +1,4 @@
 "use client";
-import {
-  passwordMatchSchema,
-  passwordSchema,
-} from "@/app/(logged-out)/register/validations";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,19 +11,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-const formSchema = z
-  .object({
-    currentPassword: passwordSchema,
-  })
-  .and(passwordMatchSchema);
-
-type FormSchema = z.infer<typeof formSchema>;
+import { changePassword } from "./actions";
+import { changePasswordFormSchema, ChangePasswordFormType } from "./schemas";
+import { toast } from "sonner";
 
 function ChangePasswordForm() {
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(changePasswordFormSchema),
     defaultValues: {
       currentPassword: "",
       password: "",
@@ -35,11 +25,19 @@ function ChangePasswordForm() {
     },
   });
 
+  const onSubmit = async (data: ChangePasswordFormType) => {
+    const res = await changePassword(data);
+    if (res?.error) {
+      form.setError("root", { message: res.message });
+      return;
+    }
+
+    toast.success(res.message);
+    form.reset();
+  };
   return (
     <Form {...form}>
-      <form
-      //onSubmit={form.handleSubmit(onSubmit)}
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <fieldset
           disabled={form.formState.isSubmitting}
           className="flex flex-col gap-2"
@@ -98,6 +96,9 @@ function ChangePasswordForm() {
             )}
           />
 
+          {!!form.formState.errors.root && (
+            <FormMessage>{form.formState.errors.root?.message}</FormMessage>
+          )}
           <Button type="submit">Change Password</Button>
         </fieldset>
       </form>
