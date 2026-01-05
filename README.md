@@ -200,3 +200,5 @@ export const { GET, POST } = handlers;
 // middleware
 export { auth as middleware } from "@/auth";
 ```
+
+## User dashboard
