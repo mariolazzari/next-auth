@@ -2,10 +2,12 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { RegisterForm } from "./register-form";
+import Link from "next/link";
 
 function RegisterPage() {
   return (
@@ -19,6 +21,15 @@ function RegisterPage() {
         <CardContent>
           <RegisterForm />
         </CardContent>
+
+        <CardFooter>
+          <div className="text-muted-foreground text-sm">
+            Already have an account?
+            <Link className="ml-1 underline" href="/login">
+              Register
+            </Link>
+          </div>
+        </CardFooter>
       </Card>
     </main>
   );

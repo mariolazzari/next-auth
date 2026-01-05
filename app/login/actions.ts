@@ -27,7 +27,7 @@ export const loginUser = async ({ email, password }: LoginFormSchema) => {
 
     return {
       error: true,
-      message: "Database error",
+      message: "Invalid credentials",
     };
   }
 };

@@ -29,7 +29,7 @@ export function LoginForm() {
   const onSubmit = async (data: LoginFormSchema) => {
     const result = await loginUser(data);
     if (result?.error) {
-      form.setError("email", { message: result.message });
+      form.setError("root", { message: result.message });
       return;
     }
     router.push("/my-account");
@@ -69,6 +69,10 @@ export function LoginForm() {
               </FormItem>
             )}
           />
+
+          {!!form.formState.errors.root?.message && (
+            <FormMessage>{form.formState.errors.root.message}</FormMessage>
+          )}
 
           <Button type="submit">Login</Button>
         </fieldset>

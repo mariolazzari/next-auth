@@ -2,10 +2,12 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { LoginForm } from "./login-form";
+import Link from "next/link";
 
 function LoginPage() {
   return (
@@ -19,6 +21,22 @@ function LoginPage() {
         <CardContent>
           <LoginForm />
         </CardContent>
+
+        <CardFooter className="flex-col gap-2">
+          <div className="text-muted-foreground text-sm">
+            Don&apos;t have an account?
+            <Link className="underline ml-1" href="/register">
+              Register
+            </Link>
+          </div>
+
+          <div className="text-muted-foreground text-sm">
+            Forgot password?
+            <Link className="underline ml-1" href="/password-reset">
+              Reset password
+            </Link>
+          </div>
+        </CardFooter>
       </Card>
     </main>
   );
