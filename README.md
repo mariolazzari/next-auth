@@ -137,4 +137,6 @@ export const registerUser = async ({
 
 ## Login
 
-### Login form
+### NextAuth setup
+
+[AuthJS](https://authjs.dev/)
