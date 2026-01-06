@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { LoginForm } from "./login-form";
 import Link from "next/link";
+import { PasswordReset } from "./password-reset";
 
 function LoginPage() {
   return (
@@ -30,12 +31,7 @@ function LoginPage() {
             </Link>
           </div>
 
-          <div className="text-muted-foreground text-sm">
-            Forgot password?
-            <Link className="underline ml-1" href="/password-reset">
-              Reset password
-            </Link>
-          </div>
+          <PasswordReset />
         </CardFooter>
       </Card>
     </main>

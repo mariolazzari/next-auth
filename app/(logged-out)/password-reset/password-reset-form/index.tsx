@@ -13,12 +13,15 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { PasswordReset, passwordResetSchema } from "./schemas";
+import { useSearchParams } from "next/navigation";
 
 export function PasswordResetForm() {
+  const searchParams = useSearchParams();
+
   const form = useForm<PasswordReset>({
     resolver: zodResolver(passwordResetSchema),
     defaultValues: {
-      email: "",
+      email: decodeURIComponent(searchParams.get("email") ?? ""),
     },
   });
 

@@ -1,5 +1,5 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { loginUser } from "./actions";
 import { loginFormSchema, LoginFormSchema } from "./schemas";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export function LoginForm() {
   const router = useRouter();
@@ -34,6 +35,17 @@ export function LoginForm() {
     }
     router.push("/my-account");
   };
+
+  const email = useWatch({
+    control: form.control,
+    name: "email",
+  });
+
+  useEffect(() => {
+    if (email) {
+      localStorage.setItem("email", email);
+    }
+  }, [email]);
 
   return (
     <Form {...form}>
