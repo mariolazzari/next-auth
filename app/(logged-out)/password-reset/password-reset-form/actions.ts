@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import db from "@/db/drizzle";
 import { passwordResetTokens } from "@/db/passwordResetTokenSchema";
 import { users } from "@/db/userSchema";
+import { mailer } from "@/lib/mail";
 import { randomBytes } from "crypto";
 import { eq } from "drizzle-orm";
 
@@ -30,7 +31,11 @@ export async function resetPassword(email: string) {
 
   await db
     .insert(passwordResetTokens)
-    .values({ userId: user.id, token: passwordResetToken, tokenExpiry })
+    .values({
+      userId: user.id,
+      token: passwordResetToken,
+      tokenExpiry,
+    })
     .onConflictDoUpdate({
       target: passwordResetTokens.userId,
       set: {
@@ -38,4 +43,13 @@ export async function resetPassword(email: string) {
         tokenExpiry,
       },
     });
+
+  const resetLink = `http://localhost:3000/update-password?token=${passwordResetToken}`;
+
+  await mailer.sendMail({
+    from: "test@resend.dev",
+    subject: "Password reset request",
+    to: email,
+    html: `Password reset link: <a href=${resetLink}>${resetLink}</a>`,
+  });
 }

@@ -368,3 +368,14 @@ npx drizzle-kit push
 ```
 
 ### Sending emails with Resend
+
+[Resend](https://resend.com/)
+
+```sh
+pnpm add nodemailer
+pnpm add -D @types/nodemailer
+```
+
+```ts
+
+```
