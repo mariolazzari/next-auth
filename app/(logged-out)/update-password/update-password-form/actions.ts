@@ -8,15 +8,17 @@ import { passwordMatchSchema } from "../../register/validations";
 import { passwordResetTokens } from "@/db/passwordResetTokenSchema";
 import { users } from "@/db/userSchema";
 
+type UpdatePassword = {
+  token: string;
+  password: string;
+  passwordConfirm: string;
+};
+
 export const updatePassword = async ({
   token,
   password,
   passwordConfirm,
-}: {
-  token: string;
-  password: string;
-  passwordConfirm: string;
-}) => {
+}: UpdatePassword) => {
   const passwordValidation = passwordMatchSchema.safeParse({
     password,
     passwordConfirm,

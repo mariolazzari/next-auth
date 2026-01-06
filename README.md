@@ -366,3 +366,5 @@ export const passwordResetTokenSchema = pgTable("password_reset_tokens", {
 ```sh
 npx drizzle-kit push
 ```
+
+### Sending emails with Resend

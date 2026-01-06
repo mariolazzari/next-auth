@@ -32,7 +32,7 @@ export default async function UpdatePassword({
 
   return (
     <main className="flex justify-center items-center min-h-screen">
-      <Card className="w-[350px]">
+      <Card className="w-92">
         <CardHeader>
           <CardTitle>
             {tokenIsValid
