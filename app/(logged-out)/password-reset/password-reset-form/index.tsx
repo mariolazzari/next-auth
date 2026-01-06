@@ -14,6 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { PasswordReset, passwordResetSchema } from "./schemas";
 import { useSearchParams } from "next/navigation";
+import { resetPassword } from "./actions";
 
 export function PasswordResetForm() {
   const searchParams = useSearchParams();
@@ -26,7 +27,7 @@ export function PasswordResetForm() {
   });
 
   const onSubmit = async (data: PasswordReset) => {
-    //   const result = await loginUser(data);
+    const result = await resetPassword(data.email);
     //   if (result?.error) {
     //     form.setError("root", { message: result.message });
     //     return;
