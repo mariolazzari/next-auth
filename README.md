@@ -391,4 +391,8 @@ export const mailer = nodemailer.createTransport({
 
 ## Two factors authentication
 
-###
+### QR code
+
+```sh
+pnpm add otplib qrcode.react
+```

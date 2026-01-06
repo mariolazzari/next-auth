@@ -2,6 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { get2faSecret } from "./actions";
+import { toast } from "sonner";
+import { QRCodeSVG as QRCode } from "qrcode.react";
 
 type Props = {
   twoFactorActivated: boolean;
@@ -10,20 +13,16 @@ type Props = {
 export function TwoFactorAuthForm({ twoFactorActivated }: Props) {
   const [isActivated, setIsActivated] = useState(twoFactorActivated);
   const [step, setStep] = useState(1);
+  const [code, setCode] = useState("");
 
   const onEnableClick = async () => {
+    const response = await get2faSecret();
+    if (response.error) {
+      toast.error(response.message);
+      return;
+    }
     setStep(2);
-
-    // const response = await get2faSecret();
-    // if (response.error) {
-    //   toast({
-    //     variant: "destructive",
-    //     title: response.message,
-    //   });
-    //   return;
-    // }
-    //
-    // setCode(response.twoFactorSecret ?? "");
+    setCode(response.twoFactorSecret ?? "");
   };
 
   return (
@@ -42,7 +41,7 @@ export function TwoFactorAuthForm({ twoFactorActivated }: Props) {
                 Scan the QR code below in the Google Authenticator app to
                 activate Two-Factor Authentication.
               </p>
-              {/* <QRCode value={code} /> */}
+              <QRCode value={code} />
               <Button onClick={() => setStep(3)} className="w-full my-2">
                 I have scanned the QR code
               </Button>
