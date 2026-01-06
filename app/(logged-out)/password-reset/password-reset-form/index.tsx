@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { PasswordReset, passwordResetSchema } from "./schemas";
 import { useSearchParams } from "next/navigation";
 import { resetPassword } from "./actions";
+import { toast } from "sonner";
 
 export function PasswordResetForm() {
   const searchParams = useSearchParams();
@@ -28,11 +29,11 @@ export function PasswordResetForm() {
 
   const onSubmit = async (data: PasswordReset) => {
     const result = await resetPassword(data.email);
-    //   if (result?.error) {
-    //     form.setError("root", { message: result.message });
-    //     return;
-    //   }
-    //  router.push("/my-account");
+    if (result?.error) {
+      form.setError("root", { message: result.message });
+      return;
+    }
+    toast.success("Password reset mail sent");
   };
 
   return (
