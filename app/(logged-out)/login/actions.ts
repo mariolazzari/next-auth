@@ -1,29 +1,45 @@
 "use server";
+
 import { signIn } from "@/auth";
-import { loginFormSchema, LoginFormSchema } from "./schemas";
 import db from "@/db/drizzle";
-import { users } from "@/db/userSchema";
 import { compare } from "bcryptjs";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
+import { passwordSchema } from "../register/validations";
+import { users } from "@/db/schema";
 
-export const loginUser = async ({ email, password }: LoginFormSchema) => {
+export const loginWithCredentials = async ({
+  email,
+  password,
+  token,
+}: {
+  email: string;
+  password: string;
+  token?: string;
+}) => {
+  const loginSchema = z.object({
+    email: z.email(),
+    password: passwordSchema,
+  });
+
+  const loginValidation = loginSchema.safeParse({
+    email,
+    password,
+  });
+
+  if (!loginValidation.success) {
+    return {
+      error: true,
+      message:
+        loginValidation.error?.issues[0]?.message ?? "An error occurred.",
+    };
+  }
+
   try {
-    const loginValidation = loginFormSchema.safeParse({
-      email,
-      password,
-    });
-
-    if (!loginValidation.success) {
-      return {
-        error: true,
-        message:
-          loginValidation.error.issues?.[0]?.message ?? "Invalid login data",
-      };
-    }
-
     await signIn("credentials", {
       email,
       password,
+      token,
       redirect: false,
     });
   } catch (ex) {
@@ -31,7 +47,7 @@ export const loginUser = async ({ email, password }: LoginFormSchema) => {
 
     return {
       error: true,
-      message: "Invalid credentials",
+      message: "Incorrect email or password",
     };
   }
 };
